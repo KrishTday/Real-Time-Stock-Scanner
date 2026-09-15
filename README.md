@@ -2,7 +2,7 @@
 
 A momentum stock scanner built with React that screens for low-float, high relative-volume breakouts via the Polygon.io API. I built this to practice working with real-time market data and REST polling in a client-only app.
 
-<img width="1919" height="1079" alt="Image" src="https://github.com/user-attachments/assets/5be65d0a-ef7e-4e0a-a2a0-c5a4ccf2026d" />
+<img width="1122" height="1079" alt="Image" src="https://github.com/user-attachments/assets/0e6b14df-9b98-4ceb-ba26-7de24f66f115" />
 
 ## 🛠️ Technologies
 
