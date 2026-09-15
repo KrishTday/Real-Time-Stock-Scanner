@@ -1,62 +1,50 @@
 # 📈 Real-Time Stock Scanner
 
-A real-time momentum stock scanner built with React that screens equities against a 5-pillar model to surface low-float names showing signs of explosive demand.
+A momentum stock scanner built with React that screens for low-float, high relative-volume breakouts via the Polygon.io API. I built this to practice working with real-time market data and REST polling in a client-only app.
 
-**[Live Demo](https://real-time-stock-scanner.vercel.app)**
+## 🛠️ Technologies
 
----
+- React
+- Vite
+- JavaScript
+- Polygon.io API
+- Finnhub API
+- CSS
+- lucide-react
 
-## The 5 Pillars
+## 🥷 Features
 
-Each ticker is scored **0–5** based on how many of the following it currently clears, shown as dots in the Signal column. A 5/5 score is flagged as an explosive setup.
+Here's what you can do with the Stock Scanner:
 
-| Pillar | What it measures |
-|---|---|
-| **Relative Volume (RVol)** | Today's volume vs. a baseline |
-| **Total Volume** | Raw shares traded |
-| **Gap / % Gain** | Move from prior close |
-| **Price Range** | $2–$20 |
-| **Float** | Shares available to trade — lower float means more price-sensitivity to volume |
+- **Simulated Mode**: Try the app instantly with generated fake tickers, no API key needed.
+- **Live Mode**: Connect a Polygon.io key to poll real market snapshots every 15 seconds.
+- **EOD Fallback**: If your API tier can't reach the live endpoint, the app automatically falls back to comparing the two most recent completed trading sessions.
+- **5-Pillar Signal Scoring**: Each ticker is scored 0–5 across relative volume, total volume, gap %, price range, and float, shown as dots in the Signal column.
+- **Float Lookup**: Optionally add a Finnhub key to pull in float data and spot low-float names.
+- **Custom Criteria**: Adjust the thresholds for each pillar to match your own screening style.
 
-## Data Modes
+## 🐢 The Process
 
-- **Simulated** *(default)* — generates fake tickers for testing the UI. No API key needed.
-- **Live** — requires a paid Polygon/Massive plan (the free tier doesn't include the snapshot endpoint). Polls every 15 seconds.
-- **EOD Fallback** — kicks in automatically if a Polygon key hits a 403 on the live endpoint. Compares the two most recent completed trading sessions instead, refreshed every 5 minutes.
+I started by building the polling layer that pulls live snapshot data from the Polygon.io API on a set interval, since the app runs entirely client-side with no backend. From there, I designed the 5-pillar scoring model (relative volume, total volume, gap %, price range, and float) so that each ticker could be scored 0 to 5 based on how many pillars it cleared, with the strongest setups easy to spot at a glance.
 
-## Tech Stack
+Since the free Polygon tier doesn't include the live snapshot endpoint, I added an EOD fallback that automatically kicks in if a live request gets rejected, comparing the two most recent completed sessions instead so the app still returns useful data. I also built a Simulated mode with generated fake tickers so the app is usable and testable without requiring an API key at all. Finally, I wired in an optional Finnhub key to pull in float data, and built out a Criteria panel so users can adjust the thresholds for each pillar to match their own screening style.
 
-- **React** (functional components and hooks), built with **Vite**
-- **[Polygon.io](https://polygon.io)** (now Massive) market snapshot REST API for live data
-- **[Finnhub](https://finnhub.io)** company profile API for float data
-- **[lucide-react](https://lucide.dev)** for icons
-- No backend — runs entirely client-side, polling REST endpoints on an interval rather than using a websocket
+## 📚 What I Learned
 
-## Quick Start (no install needed)
+Building this project pushed me to think more carefully about working with real-time data on the frontend. Since there's no backend, I had to handle everything, from polling intervals to rate limits to graceful fallbacks, directly in React state, which taught me a lot about managing async data flows and avoiding race conditions between polling cycles.
 
-Don't want to touch code? Just use the hosted version:
+I also learned a lot about designing a scoring system from multiple weighted inputs, and making sure the logic stayed clear and easy to adjust as I added more criteria. Handling the live-to-EOD fallback in particular forced me to think about failure states early rather than assuming the "happy path" API response would always be available, which changed how I approach API integrations going forward.
 
-1. Go to **[real-time-stock-scanner.vercel.app](https://real-time-stock-scanner.vercel.app)**
-2. The scanner opens in **Simulated mode** — it works right away with fake tickers, no sign-up or API key required
-3. Want real market data? Click **Criteria** in the app and paste in a free [Polygon.io](https://polygon.io) API key (see [Data Modes](#data-modes) above for what each key unlocks)
+## 🏃 Running the Project
 
-That's it — nothing to install.
+To run the project in your local environment, follow these steps:
 
-## Setup (for developers)
+1. Clone the repository to your local machine.
+2. Run `npm install` in the project directory to install the required dependencies.
+3. Run `npm run dev` to get the project started.
+4. Open the address shown in your console (typically `http://localhost:5173`) in your browser to view the app.
+5. Click **Criteria** in the app to add your Polygon.io and/or Finnhub API keys, or leave it in Simulated mode to try it out right away.
 
-```bash
-npm install
-npm run dev
-```
+## 🎥 Video
 
-Open the app, click **Criteria**, and paste in your API keys — they're kept in-session only and never persisted or committed.
-
-- **Polygon.io key** — required for live or EOD data
-- **Finnhub key** — optional, enables the float column
-
-## Known Limitations
-
-- RVol is computed as today's volume divided by prior-day volume — a proxy rather than a true 20-day average
-- Float comes from Finnhub's shares-outstanding figure, not true tradeable float (excludes insider and locked shares)
-- This is a screener only — no order execution, alerts, or backtesting
-- Not financial advice, and has not been validated against live trading performance
+https://github.com/user-attachments/assets/38bc69de-a614-4098-8236-ed2230203d01
