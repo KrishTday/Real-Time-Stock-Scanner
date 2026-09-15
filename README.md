@@ -47,4 +47,4 @@ To run the project in your local environment, follow these steps:
 
 ## 🎥 Video
 
-https://github.com/user-attachments/assets/38bc69de-a614-4098-8236-ed2230203d01
+https://github.com/user-attachments/assets/78359109-a53d-4cb9-a1d1-47fd19ee6d99
