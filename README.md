@@ -1,4 +1,4 @@
-# 📈 Real-Time Stock Scanner
+# 📈 Real Time Stock Scanner
 
 A momentum stock scanner built with React that screens for low-float, high relative-volume breakouts via the Polygon.io API. I built this to practice working with real-time market data and REST polling in a client-only app.
 
