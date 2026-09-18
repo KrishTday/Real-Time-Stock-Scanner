@@ -4,6 +4,8 @@ A momentum stock scanner built with React that screens for low-float, high relat
 
 <img width="1122" height="1079" alt="Image" src="https://github.com/user-attachments/assets/0e6b14df-9b98-4ceb-ba26-7de24f66f115" />
 
+https://github.com/user-attachments/assets/78359109-a53d-4cb9-a1d1-47fd19ee6d99
+
 ## 🛠️ Technologies
 
 - React
@@ -46,7 +48,3 @@ To run the project in your local environment, follow these steps:
 3. Run `npm run dev` to get the project started.
 4. Open the address shown in your console (typically `http://localhost:5173`) in your browser to view the app.
 5. Click **Criteria** in the app to add your Polygon.io and/or Finnhub API keys, or leave it in Simulated mode to try it out right away.
-
-## 🎥 Video
-
-https://github.com/user-attachments/assets/78359109-a53d-4cb9-a1d1-47fd19ee6d99
