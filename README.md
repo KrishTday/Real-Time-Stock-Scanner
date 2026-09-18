@@ -56,17 +56,14 @@ To run the project in your local environment, follow these steps:
    ```
 4. Open `http://localhost:8080` in your browser to view the app. The database seeds itself with sample Laurier events on first run.
 
-## 🤖 Chat feature setup
+## 🤖 How the chat feature works
 
-The "Ask about events" widget needs two API keys set as environment variables on the backend. Without them, the rest of the app works normally and the chat widget returns a friendly "not configured" message instead of erroring.
+The "Ask about events" widget is powered by a small RAG (retrieval-augmented generation) pipeline running entirely on the backend:
 
-1. Get a Voyage AI key at [voyageai.com](https://www.voyageai.com) (embeddings; free tier available).
-2. Get an Anthropic key at [console.anthropic.com](https://console.anthropic.com) (Claude API; used to generate answers).
-3. Set them before running locally:
-   ```
-   export VOYAGE_API_KEY=your_voyage_key
-   export ANTHROPIC_API_KEY=your_anthropic_key
-   ```
-4. On Render, add the same two keys in the service's Environment tab (they're already declared as secrets in `render.yaml`, so Render will prompt for them on deploy).
+1. **Embedding events**: Whenever event data changes, each event's text (title, description, location, etc.) is sent to Voyage AI to generate a vector embedding, which is cached in SQLite so it doesn't need to be recomputed on every request.
+2. **Embedding the question**: When a student asks something in the chat widget, their question is embedded the same way using Voyage AI.
+3. **Retrieval**: The question's embedding is compared against every cached event embedding using cosine similarity, and the closest-matching events are pulled out as the most relevant context.
+4. **Generation**: Those matched events are handed to the Claude API as grounding context, along with the student's question, so Claude answers using real event data instead of guessing.
+5. **UI**: The matched events also show up as clickable chips under the chat response, letting students jump straight to them in the main list.
 
-Never commit these keys to the repo — they're read from the environment only.
+The deployed app already has the required Voyage AI and Claude API keys configured on the backend, so students using the live site don't need to do anything to use the chat feature. If the backend is ever run somewhere without those keys set, the rest of the app works normally and the chat widget just returns a friendly "not configured" message instead of erroring.
